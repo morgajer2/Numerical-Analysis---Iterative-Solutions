@@ -63,7 +63,7 @@ def checkResult(result, last_result, n, e):
     return True
 
 
-def Yaakobi(mat, b):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
+def Jacobi(mat, b):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
     """
     caculating matrix to find vareables vector accourding to yaakobi's algorithem
     :param mat: the matrix
@@ -139,5 +139,5 @@ def Gauss_Seidel(mat, b):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
 l1 = [[3, -1, 1], [0, 1, -1], [1, 1, -2]]
 b = [4, -1, -3]
 
-print(Yaakobi(l1, b))
+print(Jacobi(l1, b))
 print(Gauss_Seidel(l1, b))
