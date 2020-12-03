@@ -15,20 +15,19 @@ def Bisection_Method(poli, start_point, end_point, eps):
     :return: the root if exists else False
     """
     max_iter = evaluate_error(start_point, end_point, eps)
-
-    def bm(a, b, count):
-        if count == max_iter:
-            return False
-        elif a - b < eps:
-            return end_point
-
-        c = (a + b) / 2
-        if f(poli, a) * f(poli, c) < 0:
-            return bm(a, c, count + 1)
+    count = 0
+    c = (start_point + end_point) / 2
+    while True:
+        if f(poli, start_point) * f(poli, c) < 0:
+            end_point = c
         else:
-            return bm(c, b, count + 1)
-
-    return bm(start_point, end_point, 0)
+            start_point = c
+        last_c = c
+        c = (start_point + end_point) / 2
+        if max_iter < count:
+            return "h"
+        elif abs(c - last_c) < eps:
+            return round(c,len(str(eps)))
 
 
 def f(poli, x):
@@ -44,6 +43,20 @@ def f(poli, x):
         sum += poli[i] * (x ** size)
         size -= 1
     return sum
+
+
+def derived_f(poli):
+    """
+    func that calc the derivative of the polinom
+    :param poli: polinom ,list with the factors x+1 -> [1,1]
+    :return: derivative of the polinom
+    """
+    size = len(poli) - 1  # the aloft of the derivative
+    list_der = list()
+    for i in range(size):
+        list_der.append(poli[i] * (size))
+        size = size - 1
+    return list_der
 
 
 def find_roots(poli, start_point, end_point, num_of_range):
@@ -65,37 +78,19 @@ def find_roots(poli, start_point, end_point, num_of_range):
         by = f(poli, a + jump)
         if ay * by < 0:  # Suspicious root
             root = Bisection_Method(poli, a, a + jump, 0.000001)
-            if (root):
+            if not isinstance(root,str):
                 list_root.append(root)
-        a = a + jump
-
-    # finding even Multiplication roots
-    derivative = derived_f(poli)
-    a = start_point
-    for i in range(num_of_range):
-        ay = f(derivative, a)
-        by = f(derivative, a + jump)
-        if ay * by < 0:  # Suspicious root
-            root = Bisection_Method(derivative, a, a + jump, 0.000001)
-            if (root):
-                if f(poli, root)== 0:
-                    list_root.append(root)
         a = a + jump
     return list_root
 
-
-def derived_f(poli):
-    """
-    func that calc the derivative of the polinom
-    :param poli: polinom ,list with the factors x+1 -> [1,1]
-    :return: derivative of the polinom
-    """
-    size = len(poli) - 1  # the aloft of the derivative
-    list_der = list()
-    for i in range(size):
-        list_der.append(poli[i] * (size))
-        size = size - 1
-    return list_der
+def allRoots(poli, start_point, end_point, num_of_range):
+    roots = find_roots(poli, start_point, end_point, num_of_range)
+    d_roots = find_roots(derived_f(poli), start_point, end_point, num_of_range)
+    for r in d_roots:
+        if f(poli,r)==0:
+            roots.append(r)
+    return roots
 
 
-print(find_roots([1, -3, 0, 0], -4.6, 8, 36))
+print(allRoots([1, -3, 0, 0], -4.6, 8, 36))
+print(allRoots([ 1, 5, -4], -10, 5, 50))
