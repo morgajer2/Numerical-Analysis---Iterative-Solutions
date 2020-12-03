@@ -1,4 +1,5 @@
 import math
+import sympy as sp
 
 
 def evaluate_error(start_point, end_point, eps):
@@ -27,7 +28,7 @@ def Bisection_Method(poli, start_point, end_point, eps):
         if max_iter < count:
             return "h"
         elif abs(c - last_c) < eps:
-            return round(c,len(str(eps)))
+            return round(c, len(str(eps)))
 
 
 def f(poli, x):
@@ -78,19 +79,20 @@ def find_roots(poli, start_point, end_point, num_of_range):
         by = f(poli, a + jump)
         if ay * by < 0:  # Suspicious root
             root = Bisection_Method(poli, a, a + jump, 0.000001)
-            if not isinstance(root,str):
+            if not isinstance(root, str):
                 list_root.append(root)
         a = a + jump
     return list_root
+
 
 def allRoots(poli, start_point, end_point, num_of_range):
     roots = find_roots(poli, start_point, end_point, num_of_range)
     d_roots = find_roots(derived_f(poli), start_point, end_point, num_of_range)
     for r in d_roots:
-        if f(poli,r)==0:
+        if f(poli, r) == 0:
             roots.append(r)
     return roots
 
 
 print(allRoots([1, -3, 0, 0], -4.6, 8, 36))
-print(allRoots([ 1, 5, -4], -10, 5, 50))
+print(allRoots([1, 5, -4], -10, 5, 50))
