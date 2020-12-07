@@ -54,8 +54,10 @@ def allRoots(poli, start_point, end_point, num_of_range):
         while True:
             if f(poli, start_point) * f(poli, c) < 0:
                 end_point = c
-            else:
+            elif f(poli, end_point) * f(poli, c) < 0:
                 start_point = c
+            else:
+                return c
             last_c = c
             c = (start_point + end_point) / 2
             if max_iter < count:
@@ -97,5 +99,6 @@ def allRoots(poli, start_point, end_point, num_of_range):
 
 print("examples:\nx^3-3x^2 :")
 print(allRoots([1, -3, 0, 0], -4.6, 8, 36))
-print("\nx^2+5x-4 :")
+print(allRoots([1, -3, 0, 0], -1, 1, 1)) # extreme case
+print("x^2+5x-4 :")
 print(allRoots([1, 5, -4], -10, 5, 50))
