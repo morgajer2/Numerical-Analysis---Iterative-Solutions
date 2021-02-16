@@ -91,35 +91,35 @@ def mainFunc(f, start_point, end_point, epsilon=0.000001):
         by = float(f.subs(x, x0 + jump))
         if ay * by < 0:  # Suspicious root
             print("\nrange = [" + str(x0) + ", " + str(x0 + jump) + "]")
-            roots_secant.append(secant_method(f, x0, x0 + jump))
+            #roots_secant.append(secant_method(f, x0, x0 + jump))
             roots_newton.append(newton_raphson(f, x0, x0 + jump))
         elif ay == 0 and (x0, 0) not in roots_secant:
-            roots_secant.append((x0, 0))
+            #roots_secant.append((x0, 0))
             roots_newton.append((x0, 0))
         elif by == 0:
-            roots_secant.append((x0 + jump, 0))
+            #roots_secant.append((x0 + jump, 0))
             roots_newton.append((x0 + jump, 0))
         x0 += jump
     # printing:
     if not roots_secant and not roots_newton:
         print("no roots found")
     else:
-        print("\nsecant method: ")
-        for t in roots_secant:
-            print("number of iterations: " + str(t[1]) + " root: " + str(t[0]))
-        print("\nnewton raphson: ")
+        #print("\nResults: ")
+        #for t in roots_secant:
+            #print("number of iterations: " + str(t[1]) + " root: " + str(t[0]))
+        print("\nResults: ")
         for t in roots_newton:
             print("number of iterations: " + str(t[1]) + " root: " + str(t[0]))
     return (roots_secant, roots_newton)
 
-
+"""
 f9 = (sin(x ** 4 + 5 * x - 6)) / (2 * (e ** (-2 * x + 5)))
 print("func: " + str(f9))
 mainFunc(f9, -1.5, 1.5)
-
 """
-f17 = ((x**2)*(e**-x**2-5*x-3))*(3*x-1)
+
+f17 =  ((x**2)*(e**(-x**2-5*x-3)))*(3*x-1)
 print("func: " + str(f17))
 mainFunc(f17, 0, 1.5)
 
-"""
+
