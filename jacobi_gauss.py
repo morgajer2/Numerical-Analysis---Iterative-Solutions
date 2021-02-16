@@ -49,7 +49,7 @@ def rowSum(row, n, x):
     return sum1
 
 
-def checkResult(result, last_result, n, e):
+def checkResult(result, last_result, n, epsilon):
     """
     checking if the result is accurate enough
     :param result: the most recent result
@@ -58,12 +58,12 @@ def checkResult(result, last_result, n, e):
     :return: boolean
     """
     for i in range(n):
-        if result[i] - last_result[i] > e:
+        if abs(result[i] - last_result[i]) > epsilon:
             return False
     return True
 
 
-def Jacobi(mat, b):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
+def Jacobi(mat, b, epsilon =0.000001):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
     """
     caculating matrix to find vareables vector accourding to yaakobi's algorithem
     :param mat: the matrix
@@ -79,7 +79,8 @@ def Jacobi(mat, b):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
 
     # check if Diagonally Dominant Matrix
     if not isDDM(mat, n):
-        return "matrix is not Diagonally Dominant"
+        print("matrix is not Diagonally Dominant")
+
 
     # taking a guess: all zeros
     last_result = list()
@@ -88,18 +89,22 @@ def Jacobi(mat, b):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
 
     result = last_result.copy()
 
+    print("all results:\nx\t\ty\t  z")
+
     while True:
         for i in range(n):  # for each variable
             result[i] = b[i] - (rowSum(mat[i], n, last_result) - mat[i][i] * last_result[i])
             result[i] /= mat[i][i]
 
 
-        if checkResult(result, last_result, n, 0.001):
+        print(result)
+
+        if checkResult(result, last_result, n, epsilon):
             return result
         last_result = result.copy()
 
 
-def Gauss_Seidel(mat, b):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
+def Gauss_Seidel(mat, b, epsilon = 0.000001):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
     """
     caculating matrix to find vareables vector accourding to Gauss–Seidel's algorithem
     :param mat: the matrix
@@ -115,29 +120,56 @@ def Gauss_Seidel(mat, b):  # mat needs to be a list, example: l1 = [[2,3],[4,5]]
 
     # check if Diagonally Dominant Matrix
     if not isDDM(mat, n):
-        return "matrix is not Diagonally Dominant"
+        print("matrix is not Diagonally Dominant")
 
     # taking a guess: all zeros
     last_result = list()
     for i in range(n):
         last_result.append(0)
 
+
+
     result = last_result.copy()
     updated_result = last_result.copy()
+
+    print("all results:\nx\t\ty\t  z")
 
     while True:
         for i in range(n):  # for each variable
             result[i] = b[i] - (rowSum(mat[i], n, updated_result) - mat[i][i] * updated_result[i])
             result[i] /= mat[i][i]
             updated_result[i] = result[i]
+            print(updated_result)
 
-        if checkResult(result, last_result, n, 0.001):
+        if checkResult(result, last_result, n, epsilon):
             return result
         last_result = result.copy()
 
+"""
+Q30 = [[10, 8, 1], [4, 10, -5], [5, 1, 10]]
+b30 = [-7, 2, 1.5]
 
-l1 = [[3, -1, 1], [0, 1, -1], [1, 1, -2]]
-b = [4, -1, -3]
 
-print(Jacobi(l1, b))
-print(Gauss_Seidel(l1, b))
+#print("Jacobi")
+print("matrix: ")
+for i in Q30:
+    print(i)
+print("\nb: "+str(b30)+"\n")
+result = Gauss_Seidel(Q30, b30)
+print("\nTHE RESULT: "+str(result)+"\n")
+result = Jacobi(Q30, b30)
+print("\nTHE RESULT: "+str(result))
+
+
+Q28 = [[1, 0, -1], [-0.5, 1, -0.25], [1, -0.5, 1]]
+b28 = [0.2, -1.425, 2]
+
+print("matrix: ")
+for i in Q28:
+    print(i)
+print("\nb: "+str(b28)+"\n")
+result = Gauss_Seidel(Q28, b28)
+print("\nTHE RESULT: "+str(result)+"\n")
+result = Jacobi(Q28, b28)
+print("\nTHE RESULT: "+str(result))
+"""
