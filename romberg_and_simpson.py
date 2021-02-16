@@ -2,7 +2,6 @@ from math import e
 
 from sympy import *
 
-
 x = Symbol('x')
 
 
@@ -21,12 +20,15 @@ def simpson(f, a, b, n, epsilon=0.000001):
     print("n:" + str(float(n)))
     h = (b - a) / n
     print("h:" + str(float(h)))
+    print("\nmiddle results:")
     sum = f.subs(x, a)
+    func = "f(a)"
     j = 4
     x0 = a + h
     print("i:" + str(0) + "  x:" + str(float(x0)) + "  f(x):" + str(float(f.subs(x, x0))))
     for i in range(1, n):
         sum += j * f.subs(x, x0)
+        func += " + " + str(j) + "*f(x" + str(i) + ")"
         x0 += h
         if j == 4:
             j = 2
@@ -34,9 +36,12 @@ def simpson(f, a, b, n, epsilon=0.000001):
             j = 4
         print("i:" + str(i) + "  x:" + str(float(x0)) + "  f(x):" + str(float(f.subs(x, x0))))
     sum += f.subs(x, b)
-    return float((1 / 3) * h * sum)
+    func += " + f(b)"
+    func = "(1/3)*h * (" + func + ")"
+    return float((1 / 3) * h * sum), func
 
-def trapeze(f, k, a, b): # TODO: fix trapeze methood!!!
+
+def trapeze(f, k, a, b):  # TODO: fix trapeze methood!!!
     """
 
     :param f:
@@ -45,11 +50,11 @@ def trapeze(f, k, a, b): # TODO: fix trapeze methood!!!
     :param b:
     :return:
     """
-    h = (b - a)/k
+    h = (b - a) / k
     X0 = a
-    sum = (1/(2**k))*b
+    sum = (1 / (2 ** k)) * b
     sum_new = 0
-    for i in range(1,k):
+    for i in range(1, k):
         X0 = X0 + h
         sum_new += f.subs(x, X0)
     sum_new = 2 * sum_new
@@ -73,14 +78,14 @@ def romberg(f, a, b, epsilon=0.000001):
     i = 2
 
     def rom(i, j):
-        if j==1:
-            r[i,j] = trapeze(f, i, a, b)
+        if j == 1:
+            r[i, j] = trapeze(f, i, a, b)
             return
         if (i, j - 1) not in r:
             rom(i, j - 1)
-        if (i - 1, j-1) not in r:
+        if (i - 1, j - 1) not in r:
             rom(i - 1, j)
-        r[i,j] = r[i, j - 1] + ((1 / (4 ** (j - 1) - 1)) * (r[i, j - 1] - r[i - 1, j - 1]))
+        r[i, j] = r[i, j - 1] + ((1 / (4 ** (j - 1) - 1)) * (r[i, j - 1] - r[i - 1, j - 1]))
 
     while abs(r[i, i] - r[i - 1, i - 1]) > epsilon:
         rom(i + 1, i + 1)
@@ -88,14 +93,23 @@ def romberg(f, a, b, epsilon=0.000001):
     return r[i, i]
 
 
-
-
 """
 f = (sin(x**4+5*x-6))/(2*(2.71**((-2)*x+5)))
 print(simpson(f, -0.5, 0.5))
 
+
+
+f9 = (sin(x ** 4 + 5 * x - 6)) / (2 * (e ** (-2 * x + 5)))
+a = -0.5
+b = 0.5
+print("func: " + str(f9))
+sum, func = simpson(f9, a, b, 6)
+print("\nResult:\nintegrate " + str(f9) + " dx from x=" + str(a) + " to " + str(b) + " = \n" + func + " = " + str(sum))
 """
+
 f17 = ((x**2)*(e**(-x**2-5*x-3)))*(3*x-1)
+a = -0.5
+b = 0.5
 print("func: " + str(f17))
-#print(simpson(f17, 0.5,1,5))
-print(float(romberg(sin(x),0,pi)))
+sum, func = simpson(f17, a, b, 6)
+print("\nResult:\nintegrate " + str(f17) + " dx from x=" + str(a) + " to " + str(b) + " = \n" + func + " = " + str(sum))
