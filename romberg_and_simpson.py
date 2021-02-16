@@ -36,33 +36,6 @@ def simpson(f, a, b, n, epsilon=0.000001):
     sum += f.subs(x, b)
     return float((1 / 3) * h * sum)
 
-def romberg(f, a, b, epsilon=0.000001):
-    """
-
-    :param f:
-    :param a:
-    :param b:
-    :param epsilon:
-    :return:
-    """
-    r = dict()
-    r[1, 1] = trapeze(f, 1, a, b)
-    r[2, 1] = trapeze(f, 2, a, b)
-    r[2, 2] = r[2, 1] + (1 / 3) * (r[2, 1] - r[1, 1])
-    i = 2
-    def rom(i, j):
-        if (i, j - 1) not in r:
-            r[i, j - 1] = rom(i, j - 1)
-        if (i - 1, j) not in r:
-            r[i - 1, j] = rom(i - 1, j)
-        return r[i, j - 1] + ((1 / (4 ** (j - 1) - 1)) * (r[i, j - 1] - r[i - 1, j - 1]))
-
-    while abs(r[i, i] - r[i - 1, i - 1]) > epsilon:
-        r[i + 1, i + 1] = rom(i + 1, i + 1)
-        i += 1
-    return r[i, i]
-
-
 def trapeze(f, k, a, b): # TODO: fix trapeze methood!!!
     """
 
@@ -84,6 +57,39 @@ def trapeze(f, k, a, b): # TODO: fix trapeze methood!!!
     return sum
 
 
+def romberg(f, a, b, epsilon=0.000001):
+    """
+
+    :param f:
+    :param a:
+    :param b:
+    :param epsilon:
+    :return:
+    """
+    r = dict()
+    r[1, 1] = trapeze(f, 1, a, b)
+    r[2, 1] = trapeze(f, 2, a, b)
+    r[2, 2] = r[2, 1] + (1 / 3) * (r[2, 1] - r[1, 1])
+    i = 2
+
+    def rom(i, j):
+        if j==1:
+            r[i,j] = trapeze(f, i, a, b)
+            return
+        if (i, j - 1) not in r:
+            rom(i, j - 1)
+        if (i - 1, j-1) not in r:
+            rom(i - 1, j)
+        r[i,j] = r[i, j - 1] + ((1 / (4 ** (j - 1) - 1)) * (r[i, j - 1] - r[i - 1, j - 1]))
+
+    while abs(r[i, i] - r[i - 1, i - 1]) > epsilon:
+        rom(i + 1, i + 1)
+        i += 1
+    return r[i, i]
+
+
+
+
 """
 f = (sin(x**4+5*x-6))/(2*(2.71**((-2)*x+5)))
 print(simpson(f, -0.5, 0.5))
@@ -91,5 +97,5 @@ print(simpson(f, -0.5, 0.5))
 """
 f17 = ((x**2)*(e**(-x**2-5*x-3)))*(3*x-1)
 print("func: " + str(f17))
-print(simpson(f17, 0.5,1,5))
-#romberg(f17,0.5,1)
+#print(simpson(f17, 0.5,1,5))
+print(float(romberg(sin(x),0,pi)))
