@@ -95,9 +95,16 @@ def natural_spline_kobi(f, x0):
 f = [(0, 0), (pi / 6, 0.5), (pi / 4, 0.7072), (pi / 2, 1)]
 x0 = pi / 3
 """
-
+"""
 f = [(0, 10), (0.5, 8), (1, 5), (2, 2), (3, 1)]
 x0 = 0.75
 print("func: " + str(f))
 print("x0 = " + str(x0) + "\n")
 natural_spline_kobi(f, x0)
+
+f = [(0, 10), (0.5, 8), (1, 5), (2, 2), (3, 1)]
+x0 = 1.75
+print("func: " + str(f))
+print("x0 = " + str(x0) + "\n")
+natural_spline_kobi(f, x0)
+"""

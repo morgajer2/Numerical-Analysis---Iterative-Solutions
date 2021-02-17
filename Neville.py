@@ -28,7 +28,7 @@ def neville(f, x0):
             return p[(0, len(f) - 1)], p, s
         count += 1
 
-
+"""
 x0 = 1.47
 f = [(1.2, 1.5095), (1.3, 1.6984), (1.4, 1.9043), (1.5, 2.1293), (1.6, 2.3756)]
 t, p, s = neville(f, x0)
@@ -42,3 +42,4 @@ for i in p:
 
 print("\nResult:")
 print("f(" + str(x0) + ") = " + str(t))
+"""

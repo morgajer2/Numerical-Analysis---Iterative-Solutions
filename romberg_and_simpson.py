@@ -105,11 +105,13 @@ b = 0.5
 print("func: " + str(f9))
 sum, func = simpson(f9, a, b, 6)
 print("\nResult:\nintegrate " + str(f9) + " dx from x=" + str(a) + " to " + str(b) + " = \n" + func + " = " + str(sum))
-"""
+
 
 f17 = ((x**2)*(e**(-x**2-5*x-3)))*(3*x-1)
-a = -0.5
-b = 0.5
+a = 0.5
+b = 1
 print("func: " + str(f17))
 sum, func = simpson(f17, a, b, 6)
-print("\nResult:\nintegrate " + str(f17) + " dx from x=" + str(a) + " to " + str(b) + " = \n" + func + " = " + str(sum))
+print("\nResult:\nintegrate " + str(f17) + " dx from x=" + str(a) + " to " + str(b) + " = \n" + func + " =\n = " + str(sum))
+
+"""

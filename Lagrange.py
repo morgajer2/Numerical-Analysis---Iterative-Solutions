@@ -46,7 +46,7 @@ def lagrange_interpolation(f, x0):
         sum += num * f[i][1]
     return sum, l, P
 
-
+"""
 x0 = 1.47
 f = [(1.2, 1.5095), (1.3, 1.6984), (1.4, 1.9043), (1.5, 2.1293), (1.6, 2.3756)]
 ans, l, P = lagrange_interpolation(f, x0)
@@ -55,3 +55,4 @@ print("L array:")
 for i in l:
     print(i)
 print("\nf(" + str(x0) + ") = " + str(ans))
+"""

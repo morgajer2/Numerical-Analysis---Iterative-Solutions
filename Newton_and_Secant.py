@@ -151,8 +151,8 @@ mainFuncSecant(f9, -1.5, 1.5)
 
 f17 = ((x**2)*(e**(-x**2-5*x-3)))*(3*x-1)
 print("func: " + str(f17)+"\nNewton Raphson:")
-mainFuncSecant(f17, 0, 1.5)
+mainFuncNewton(f17, 0, 1.5)
 print("\n\nSecant Method:")
-mainFuncSecant(f17, -1.5, 1.5)
+mainFuncSecant(f17, 0, 1.5)
 """
 

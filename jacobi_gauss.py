@@ -146,18 +146,18 @@ def Gauss_Seidel(mat, b, epsilon = 0.000001):  # mat needs to be a list, example
         last_result = result.copy()
 
 """
-Q30 = [[10, 8, 1], [4, 10, -5], [5, 1, 10]]
-b30 = [-7, 2, 1.5]
+Q20 = [[10, 8, 1], [4, 10, -5], [5, 1, 10]]
+b20 = [-7, 2, 1.5]
 
 
 #print("Jacobi")
 print("matrix: ")
-for i in Q30:
+for i in Q20:
     print(i)
-print("\nb: "+str(b30)+"\n")
-result = Gauss_Seidel(Q30, b30)
+print("\nb: "+str(b20)+"\n")
+result = Gauss_Seidel(Q20, b20)
 print("\nTHE RESULT: "+str(result)+"\n")
-result = Jacobi(Q30, b30)
+result = Jacobi(Q20, b20)
 print("\nTHE RESULT: "+str(result))
 
 
