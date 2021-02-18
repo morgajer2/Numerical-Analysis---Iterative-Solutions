@@ -41,7 +41,7 @@ def simpson(f, a, b, n, epsilon=0.000001):
     return float((1 / 3) * h * sum), func
 
 
-def trapeze(f, k, a, b):  # TODO: fix trapeze methood!!!
+def trapeze(f, k, a, b):
     """
 
     :param f:

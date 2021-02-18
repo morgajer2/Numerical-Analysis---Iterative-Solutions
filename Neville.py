@@ -6,7 +6,7 @@ def neville(f, x0):
     :param x0: the x to find the value for.
     :return: number -> f(x0)
     """
-    # TODO: add print of the polinom we are building
+
     p = dict()
     s = list()
 
