@@ -50,15 +50,20 @@ def trapeze(f, k, a, b):  # TODO: fix trapeze methood!!!
     :param b:
     :return:
     """
-    h = (b - a) / k
+    h = (b - a) / (2**k)
     X0 = a
     sum = h
     sum_new = 0
-    for i in range(1, k):
+    nos=str(h)+"*"+"["+"0.5*f("+str(a)+")"+"+"
+
+    for i in range(0, (2**k)-1):
         X0 = X0 + h
         sum_new += f.subs(x, X0)
+        nos+="f("+str(X0)+")"+"+"
+    nos+="f("+str(b)+")"+"]"
     sum = sum * (0.5*f.subs(x, a) + 0.5*f.subs(x, b) + sum_new)
-    return sum
+    nos+="="+str(float(sum))
+    return sum,nos
 
 
 def romberg(f, a, b, epsilon=0.000001):
@@ -71,33 +76,46 @@ def romberg(f, a, b, epsilon=0.000001):
     :return:
     """
     r = dict()
-    r[1, 1] = trapeze(f, 1, a, b)
-    r[2, 1] = trapeze(f, 2, a, b)
-    r[2, 2] = r[2, 1] + (1 / 3) * (r[2, 1] - r[1, 1])
-    i = 2
+    r2= dict()
+    r[0, 0],r2[0,0] = trapeze(f, 0, a, b)
+    r[1, 0],r2[1,0] = trapeze(f, 1, a, b)
+    r[1, 1] = r[1, 0] + (1 / 3) * (r[1, 0] - r[0, 0])
+    r2[1,1]="r[1, 0] + (1 / 3) * (r[1, 0] - r[0, 0])"+"="+str(float(r[1,1]))
+    i = 1
 
     def rom(i, j):
-        if j == 1:
-            r[i, j] = trapeze(f, i, a, b)
+        if j == 0:
+            r[i, j],r2[i,j] = trapeze(f, i, a, b)
             return
         if (i, j - 1) not in r:
             rom(i, j - 1)
         if (i - 1, j - 1) not in r:
             rom(i - 1, j)
-        r[i, j] = r[i, j - 1] + ((1 / (4 ** (j - 1) - 1)) * (r[i, j - 1] - r[i - 1, j - 1]))
+        r[i, j] = r[i, j - 1] + ((1 / (4 ** (j) - 1)) * (r[i, j - 1] - r[i - 1, j - 1]))
+        r2[i,j]="r["+str(i)+","+str(j - 1)+"] +"+str((1 / (4 ** (j) - 1)) )+"* (r["+str(i)+","+str(j - 1)+"] - r["+str(i - 1)+", "+str(j - 1)+"]))="+str(float(r[i,j]))
 
     while abs(r[i, i] - r[i - 1, i - 1]) > epsilon:
         rom(i + 1, i + 1)
         i += 1
-    return r[i, i]
+    return r[i, i],r2
 
-
-# from shlomo
-f = 1/(2+x**4)
-print(float(romberg(f,0, 1)))
 
 """
+f9 = (sin(x ** 4 + 5 * x - 6)) / (2 * (e ** (-2 * x + 5)))
+r,r2=romberg(f9,-0.5,0.5)
+for i in r2:
+    print("i="+str(i[0])+" j="+str(i[1])+" "+r2[i])
+print("\nresult:"+str(r))
+"""
+f17 = ((x**2)*(e**(-x**2-5*x-3)))*(3*x-1)
+r,r2=romberg(f17,0.5,1)
+for i in r2:
+    print("i="+str(i[0])+" j="+str(i[1])+" "+r2[i])
+print("\nresult:"+str(r))
 
+
+
+"""
 f9 = (sin(x ** 4 + 5 * x - 6)) / (2 * (e ** (-2 * x + 5)))
 a = -0.5
 b = 0.5
