@@ -52,13 +52,12 @@ def trapeze(f, k, a, b):  # TODO: fix trapeze methood!!!
     """
     h = (b - a) / k
     X0 = a
-    sum = (1 / (2 ** k)) * b
+    sum = h
     sum_new = 0
     for i in range(1, k):
         X0 = X0 + h
         sum_new += f.subs(x, X0)
-    sum_new = 2 * sum_new
-    sum = sum * (f.subs(x, a) + f.subs(x, b) + sum_new)
+    sum = sum * (0.5*f.subs(x, a) + 0.5*f.subs(x, b) + sum_new)
     return sum
 
 
@@ -93,11 +92,11 @@ def romberg(f, a, b, epsilon=0.000001):
     return r[i, i]
 
 
+# from shlomo
+f = 1/(2+x**4)
+print(float(romberg(f,0, 1)))
+
 """
-f = (sin(x**4+5*x-6))/(2*(2.71**((-2)*x+5)))
-print(simpson(f, -0.5, 0.5))
-
-
 
 f9 = (sin(x ** 4 + 5 * x - 6)) / (2 * (e ** (-2 * x + 5)))
 a = -0.5
