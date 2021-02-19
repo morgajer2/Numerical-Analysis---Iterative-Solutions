@@ -90,15 +90,15 @@ def Jacobi(mat, b, epsilon =0.000001):  # mat needs to be a list, example: l1 = 
     result = last_result.copy()
 
     print("all results:\nx\t\ty\t  z")
-
+    count =0
     while True:
         for i in range(n):  # for each variable
             result[i] = b[i] - (rowSum(mat[i], n, last_result) - mat[i][i] * last_result[i])
             result[i] /= mat[i][i]
 
 
-        print(result)
-
+        print("i = "+str(count)+": "+str(result))
+        count+=1
         if checkResult(result, last_result, n, epsilon):
             return result
         last_result = result.copy()
@@ -133,33 +133,32 @@ def Gauss_Seidel(mat, b, epsilon = 0.000001):  # mat needs to be a list, example
     updated_result = last_result.copy()
 
     print("all results:\nx\t\ty\t  z")
-
+    count=0
     while True:
         for i in range(n):  # for each variable
             result[i] = b[i] - (rowSum(mat[i], n, updated_result) - mat[i][i] * updated_result[i])
             result[i] /= mat[i][i]
             updated_result[i] = result[i]
-            print(updated_result)
-
+            print("i = "+str(count) + ": " +str(updated_result))
+            count+=1
         if checkResult(result, last_result, n, epsilon):
             return result
         last_result = result.copy()
 
-"""
+
 Q20 = [[10, 8, 1], [4, 10, -5], [5, 1, 10]]
 b20 = [-7, 2, 1.5]
-
-
-#print("Jacobi")
+"""
 print("matrix: ")
 for i in Q20:
     print(i)
 print("\nb: "+str(b20)+"\n")
 result = Gauss_Seidel(Q20, b20)
 print("\nTHE RESULT: "+str(result)+"\n")
+"""
 result = Jacobi(Q20, b20)
 print("\nTHE RESULT: "+str(result))
-
+"""
 
 Q28 = [[1, 0, -1], [-0.5, 1, -0.25], [1, -0.5, 1]]
 b28 = [0.2, -1.425, 2]
